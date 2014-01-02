@@ -1,5 +1,5 @@
 PREFIX=/usr/local/
-CFLAGS="-Os"
+CFLAGS= -Os
 BINARY=mdchksum
 SOURCES=mdchksum.c
 PACKAGE=${BINARY}-${VERSION}
