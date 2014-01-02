@@ -1,0 +1,12 @@
+This is a simple program; it's build-process should be similar.  There is no
+configure script.  To make the program, one can simply run
+make && sudo make install
+
+or
+make && sudo make PREFIX=/path/to/prefix INSTALL
+
+PREFIX defaults to /usr/local if unspecified.
+
+The file ``mdchksum'' will be built and placed into PREFIX/bin, and nothing
+else will happen.  Uninstallation of the program is as simple as
+sudo rm `which mdchksum`
