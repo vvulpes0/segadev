@@ -8,7 +8,7 @@ ZARCHIVE=${ARCHIVE}.gz
 VERSION=1.0
 MAKEABLE=${BINARY} LICENSE ${ARCHIVE} ${ZARCHIVE}
 
-all: LICENSE
+all: ${BINARY} LICENSE
 archive: ${ZARCHIVE}
 install: ${BINARY}
 	install -m755 ${BINARY} ${PREFIX}/bin/
