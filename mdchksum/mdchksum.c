@@ -59,7 +59,7 @@ main(int argc, char* argv[])
 		if (argc == 1)
 		{
 			FILE *stream = fopen(argv[0], fflag ? "rb+" : "rb");
-			if (! stream)
+			if (stream == NULL)
 			{
 				err(errno, "Could not open file %s", argv[0]);
 				return EXIT_FAILURE;
@@ -81,6 +81,8 @@ main(int argc, char* argv[])
 					printf( "Checksum fixed.\n" );
 				}
 			}
+
+			fclose(stream);
 		}
 	}
 	return EXIT_SUCCESS;
