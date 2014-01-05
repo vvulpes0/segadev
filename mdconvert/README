@@ -1,0 +1,25 @@
+mdconvert is not a program in and of itself.  Each subdirectory of this one
+contains a small program useful in converting Sega Genesis / Mega Drive roms
+between various formats.  When mdconvert is built and installed, it is really
+each of these small programs that are being made.  mdconvert itself is a
+shell script used to drive these small programs.
+
+Each individual program does one thing:
+ * bin2hilo: Split a BIN formatted rom to two files, one for the high-order
+             bytes, and one for the low-order bytes
+ * bin2smd:  Convert a BIN formatted rom to SMD format
+ * s128k:    Split a BIN formatted rom into Megabit-sized files (128 kB)
+             of even / odd bytes.
+ * smd2bin:  Convert an SMD formatted rom to BIN format
+
+The driver program can be invoked as
+mdconvert <ACTION> <INFILE> [<OUTFILES>]
+where <ACTION> is one of
+ * convert:  Convert a rom of one format to the other
+ * hilo:     Split a rom to high-order and low-order byte files
+ * s128k:    Split a rom to Megabit even / odd files
+ * type:     Attempt to detect the type of a rom
+
+If <ACTION> is ``hilo'' and <INFILE> is SMD formatted, a temporary file
+is made containing a conversion of <INFILE> to BIN format, then the
+rom is split from there.

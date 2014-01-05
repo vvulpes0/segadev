@@ -1,0 +1,159 @@
+#!/bin/sh
+
+ROM_TYPE=
+
+function print_help() {
+		echo 'mdconvert Copyright (c) 2014, Dakotah Lambert'
+		echo 'All rights reserved.'
+		echo
+		echo 'usage: mdconvert ACTION FILE [OFILE1 ...]'
+		echo '  ACTION can be any of:'
+		echo '    convert: If a file is BIN formatted, convert it to SMD;'
+		echo '             if it is SMD formatted, convert it to BIN.'
+		echo '             Optional one output file name.'
+		echo
+		echo '    hilo: Split a rom to even / odd byte files.'
+		echo '          Optional two output file names. If only one is'
+		echo '          specified, it is ignored.'
+		echo
+		echo '    s128k: Split a rom to Megabit-sized even / odd byte files.'
+		echo '           Requires no output file names.'
+		echo
+		echo '    type: Determine the formatting of the rom.'
+		echo '          Requires no output file names.'
+		echo
+}
+
+function detect_type() {
+		if [ ! -e $1 ]; then
+				echo "Could not open $1: file does not exist."
+				exit 1
+		fi
+		if [ "x$(head -c 261 "$1" | tail -c 5)" == "xSEGA " ]; then
+				ROM_TYPE="BIN"
+		else
+				ROM_TYPE="SMD"
+		fi
+}
+
+if [ $# -lt 2 ]; then
+   print_help
+	 exit 1
+fi
+
+case $1 in
+		type)
+				if [ $# -lt 2 ]; then
+						print_help
+						exit 1;
+				fi
+				detect_type "$2"
+				echo ${ROM_TYPE}
+				;;
+
+		convert)
+				OUTPUT_FILE=
+				OUTPUT_TYPE=
+				if [ $# -lt 2 ]; then
+						print_help
+						exit 1;
+				fi
+				detect_type "$2"
+				case ${ROM_TYPE} in
+						BIN)
+								OUTPUT_TYPE=SMD
+								;;
+						SMD)
+								OUTPUT_TYPE=BIN
+								;;
+						*)
+								echo "Unknown rom type"
+								exit 1
+								;;
+				esac
+				if [ $# -ge 3 ]; then
+						OUTPUT_FILE=$3
+				else
+						OUTPUT_FILE=${2%%.*}.$(echo ${OUTPUT_TYPE} | tr 'A-Z' 'a-z')
+				fi
+				case ${ROM_TYPE} in
+						BIN)
+								bin2smd -o "${OUTPUT_FILE}" "$2"
+								;;
+						SMD)
+								smd2bin -o "${OUTPUT_FILE}" "$2"
+								;;
+						*)
+								exit 1
+								;;
+				esac
+				;;
+
+		hilo)
+				OUTPUT_FILE1=
+				OUTPUT_FILE2=
+				ROM_FILE=$2
+				RM_ROM=
+				if [ $# -lt 2 ]; then
+						print_help
+				fi
+				detect_type $2
+				case ${ROM_TYPE} in
+						BIN)
+								;;
+						SMD)
+								ROM_FILE="$(basename "$2").$(date +%s)$(uuidgen)"
+								smd2bin -o "${ROM_FILE}" "$2"
+								RM_ROM=true
+								;;
+						*)
+								echo "Unknown rom type"
+								exit 1
+								;;
+				esac
+				if [ $# -ge 4 ]; then
+						OUTPUT_FILE1=$3
+						OUTPUT_FILE2=$4
+				else
+						OUTPUT_FILE1=${2%%.*}.1
+						OUTPUT_FILE2=${2%%.*}.2
+				fi
+				bin2hilo "${ROM_FILE}" "${OUTPUT_FILE1}" "${OUTPUT_FILE2}"
+				if [ "x${RM_ROM}" == "xtrue" ]; then
+						rm ${ROM_FILE}
+				fi
+				;;
+
+		s128k)
+				OUTPUT_FILE1=
+				OUTPUT_FILE2=
+				ROM_FILE=$2
+				RM_ROM=
+				if [ $# -lt 2 ]; then
+						print_help
+				fi
+				detect_type $2
+				case ${ROM_TYPE} in
+						BIN)
+								;;
+						SMD)
+								ROM_FILE="$(basename "$2").$(date +%s)$(uuidgen)"
+								smd2bin -o "${ROM_FILE}" "$2"
+								RM_ROM=true
+								;;
+						*)
+								echo "Unknown rom type"
+								exit 1
+								;;
+				esac
+				s128k "${ROM_FILE}"
+				if [ "x${RM_ROM}" == "xtrue" ]; then
+						rm ${ROM_FILE}
+				fi
+				;;
+
+		*)
+				echo "Invalid command:" $1
+				print_help
+				;;
+esac
