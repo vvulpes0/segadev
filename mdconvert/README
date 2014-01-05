@@ -20,6 +20,6 @@ where <ACTION> is one of
  * s128k:    Split a rom to Megabit even / odd files
  * type:     Attempt to detect the type of a rom
 
-If <ACTION> is ``hilo'' and <INFILE> is SMD formatted, a temporary file
-is made containing a conversion of <INFILE> to BIN format, then the
+If <ACTION> is hilo or s128k and <INFILE> is SMD formatted, a temporary
+file is made containing a conversion of <INFILE> to BIN format, then the
 rom is split from there.
