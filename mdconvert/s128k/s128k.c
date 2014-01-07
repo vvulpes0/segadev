@@ -83,8 +83,8 @@ s128k(char* filename)
 		exit(EXIT_FAILURE);
 	}
 	
-	next_odd = fgetc(ifile);
 	next_even = fgetc(ifile);
+	next_odd = fgetc(ifile);
 	while (!feof(ifile) && !ferror(ifile)
 	       && (odd_file == NULL || !ferror(odd_file))
 	       && (even_file == NULL || !ferror(even_file)))
@@ -114,9 +114,9 @@ s128k(char* filename)
 		}
 		
 		fputc(next_odd, odd_file);
-		next_odd = fgetc(ifile);
-		fputc(next_even, even_file);
 		next_even = fgetc(ifile);
+		fputc(next_even, even_file);
+		next_odd = fgetc(ifile);
 		++cpos;
 	}
 }
