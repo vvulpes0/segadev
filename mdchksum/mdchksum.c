@@ -1,7 +1,8 @@
 /*****************************************************************************
  * mdchksum: read and fix checksums on Sega Genesis / Mega Drive roms
  * See the function ``print_license'' below for license information.
- ****************************************************************************/
+ *************************************************************************** */
+#define _POSIX_SOURCE
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -21,7 +22,10 @@ void print_license();
 int
 main(int argc, char* argv[])
 {
-	int ch = 0, fflag = 0, hflag = 0, lflag = 0;
+	int ch = 0;
+	int fflag = 0;
+	int hflag = 0;
+	int lflag = 0;
 	while ( (ch = getopt(argc, argv, "h?lf")) != -1 )
 	{
 		switch (ch)
@@ -58,14 +62,16 @@ main(int argc, char* argv[])
 	{
 		if (argc == 1)
 		{
+			int stored;
+			int checksum;
 			FILE *stream = fopen(argv[0], fflag ? "rb+" : "rb");
 			if (stream == NULL)
 			{
 				err(errno, "Could not open file %s", argv[0]);
 				return EXIT_FAILURE;
 			}
-			int stored = find_stored_checksum(stream);
-			int checksum = find_checksum(stream);
+			stored = find_stored_checksum(stream);
+			checksum = find_checksum(stream);
 			
 			if (stored == checksum)
 			{
@@ -141,36 +147,31 @@ print_help()
 void
 print_license()
 {
-	PERR("\n mdchksum\n\
- Copyright (c) 2013, Dakotah Lambert\n\
- All rights reserved.\n\
-\n\
- Redistribution and use in source and binary forms, with or without\n\
- modification, are permitted provided that the following conditions\n\
- are met:\n\
-\n\
- 1: Redistributions of source code must retain the above copyright\n\
-    notice, this list of conditions and the following disclaimer.\n\
-\n\
- 2: Redistributions in binary form must reproduce the above copyright\n\
-    notice, this list of conditions and the following disclaimer in\n\
-    the documentation and/or other materials provided with the\n\
-    distribution.\n\
-\n\
- 3: Neither the names of copyright holders nor the names of their\n\
-    contributors may be used to endors or promote products derived\n\
-    from this software without specific prior written permission.\n\
-\n\
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n\
-  \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n\
-  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS\n\
-  FOR A PARTICULAR PURPOSE ARE DISCLAIMED, IN NO EVENT SHALL THE\n\
-  COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,\n\
-  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,\n\
-  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n\
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n\
-  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT\n\
-  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN\n\
-  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\n\
-  POSSIBILITY OF SUCH DAMAGE.\n\n");
+	PERR("mdchksum\n");
+	PERR("Copyright (c) 2013, Dakotah Lambert\n");
+	PERR("All rights reserved.\n\n");
+	PERR("Redistribution and use in source and binary forms, with or without\n");
+	PERR("modification, are permitted provided that the following conditions\n");
+	PERR("are met:\n\n");
+	PERR("1: Redistributions of source code must retain the above copyright\n");
+	PERR("   notice, this list of conditions and the following disclaimer.\n\n");
+	PERR("2: Redistributions in binary form must reproduce the above copyright\n");
+	PERR("   notice, this list of conditions and the following disclaimer in\n");
+	PERR("   the documentation and/or other materials provided with the\n");
+	PERR("   distribution.\n\n");
+	PERR("3: Neither the names of copyright holders nor the names of their\n");
+	PERR("   contributors may be used to endors or promote products derived\n");
+	PERR("   from this software without specific prior written permission.\n\n");
+	PERR("THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n");
+	PERR("\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n");
+	PERR("LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS\n");
+	PERR("FOR A PARTICULAR PURPOSE ARE DISCLAIMED, IN NO EVENT SHALL THE\n");
+	PERR("COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,\n");
+	PERR("INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,\n");
+	PERR("BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n");
+	PERR("LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n");
+	PERR("CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT\n");
+	PERR("LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN\n");
+	PERR("ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\n");
+	PERR("POSSIBILITY OF SUCH DAMAGE.\n\n");
 }
