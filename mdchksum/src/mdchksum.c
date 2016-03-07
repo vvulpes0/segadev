@@ -7,7 +7,6 @@
 
 #define CHECKSUM_LOCATION 0x18E
 #define DATA_START 0x200
-#define PERR(str) fputs(str, stderr)
 
 static unsigned int calculate_checksum(FILE*);
 static unsigned int find_stored_checksum(FILE*);
