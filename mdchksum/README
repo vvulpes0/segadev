@@ -1,20 +1,18 @@
-mdchksum Version 1.0
+mdchksum Version 1.1
 ========
-The file ``LICENSE'' is automatically generated from the compiled program.
-If you care what license is used, the function ``print_license'' in the
-file ``mdchksum.c'' contains the full text of the license.  It should be
-the last function in the file.
-========
-The program is used to verify and fix checksums on Sega Genesis / Mega Drive
-rom images using the standard Sega algorithm.  Currently, the program does
-not check that it is actually being run against a rom file, so be sure to
-only use the -f (fix) option on something that is actually a rom.
 
-There are two types of Sega Genesis / Mega Drive rom files; mdchksum only
-supports one.  The first type, which is supported, is a raw / BIN file.
-The other is an SMD.  The file's extension may be lying, though.  To
-verify that the rom in question is supported, if you are running a Unix-
-like OS, run (replacing <rom> with the path to your rom):
+The program is used to verify and fix checksums on Sega Genesis / Mega
+Drive rom images using the standard Sega algorithm.  Currently, the
+program does not check that it is actually being run against a rom
+file, so be sure to only use the -f (fix) option on something that is
+actually a rom.
+
+There are two types of Sega Genesis / Mega Drive rom files; mdchksum
+only supports one.  The first type, which is supported, is known as a
+raw / BIN file.  The other is an SMD.  The file's extension may be
+lying, though.  To verify that the rom in question is supported, if
+you are running a Unix- like OS, run (replacing <rom> with the path to
+your rom):
 
 head -c 272 <rom> | tail -c 16; echo
 

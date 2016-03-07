@@ -1,0 +1,7 @@
+1.1:
+  * Removed unnecessary dependencies.
+  * Changed function linkage to internal.
+  * Minor style changes.
+
+1.0:
+  * First release.

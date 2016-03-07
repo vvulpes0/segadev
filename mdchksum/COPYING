@@ -1,0 +1,15 @@
+mdchksum Copyright (c) 2013, 2016 Dakotah Lambert.
+All rights reserved.
+
+usage: mdchksum [-h?l] [-f] file
+
+  -h, -? : show this message
+  -f     : automatically fix the checksum
+  -l     : display license information
+  file   : name of file to check
+
+The program assumes the file specified is a valid
+Sega Genesis / Mega Drive rom in BIN / RAW format;
+currently no checking is done to verify this.
+Do not try to fix the checksum on arbitrary files,
+as this will almost certainly cause problems.
