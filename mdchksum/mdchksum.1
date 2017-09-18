@@ -1,0 +1,69 @@
+.TH MDCHKSUM 1 2017-09-18
+.SH NAME
+mdchksum \- read and write checksums in SEGA Genesis / Mega Drive ROMs
+.SH SYNOPSIS
+.B mdchksum
+.RB [ \-c | \-f | \-r | \-w
+.IR num ]
+.RB [ \-i ]
+.RB [ \-?V ]
+.RI [ file ]
+.SH DESCRIPTION
+The
+.B mdchksum
+utility reads, writes, and corrects checksums in SEGA Genesis / Mega
+Drive ROMs.
+If no
+.I file
+operand is specified, or if the
+.I file
+operand is
+.BR '\-' ,
+data is read from the standard input.  Unless the
+.B \-i
+option is specified, all output is written to the standard output.
+.SH OPTIONS
+Non argument options that are duplicated on the command line are not
+harmful.  For options that require an argument, each duplication will
+override the previous argument value.  If more than one input file is
+specified, only the rightmost is used.
+.SS General options
+.TP
+.B \-i
+Write changes in place to the input file instead of to the standard
+output.
+.SS Modes of operation
+.TP
+.B \-c
+Compute and print the correct checksum for the input file.  This is
+the default mode of operation.
+.TP
+.B \-f
+Output a copy of the input file with its checksum corrected.
+.TP
+.B \-r
+Read and print the checksum stored in the input file.
+.TP
+.BI \-w " num"
+Output a copy of the input file with its checksum replaced by the
+low-order 16 bits of
+.IR num .
+.SS Getting help
+.TP
+.B \-?
+Display a help message and exit.
+.TP
+.B \-V
+Display version information and exit.
+.SH EXIT STATUS
+.TP
+.B 0
+Successful program execution.
+.TP
+.B 1
+Usage or syntax error.
+.TP
+.B 2
+The named input file does not exist or could not be opened.
+.SH BUGS
+All operations make a temporary copy of the input file.

@@ -1,3 +1,8 @@
+2.0:
+  * Reverted from autotools.
+  * Added manual page.
+  * Changed options.
+  * Standard input and output now supported.
 1.1:
   * Removed unnecessary dependencies.
   * Changed function linkage to internal.
