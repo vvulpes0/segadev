@@ -11,7 +11,8 @@
 enum {
 	E_SUCCESS  = 0,
 	E_USAGE    = 1,
-	E_NXFILE   = 2
+	E_NXFILE   = 2,
+	E_OUTPUT   = 3
 };
 enum {
 	M_CALC   = 1,
@@ -26,7 +27,7 @@ enum {
 static unsigned int calculate_checksum(FILE*);
 static int cp(FILE *from, FILE *to);
 static unsigned int find_stored_checksum(FILE*);
-static void fix_checksum(FILE*, unsigned int);
+static void fix_checksum(FILE*, unsigned int const);
 static void print_help(void);
 static void print_version(void);
 
@@ -113,14 +114,22 @@ main(int argc, char* argv[])
 	{
 		exit(E_NXFILE);
 	}
+	if (tempfile == NULL)
+	{
+		exit(E_OUTPUT);
+	}
 	cp(stdin, tempfile);
 	if (iflag && (fname != NULL) && (mode & (M_FIX | M_WRITE)))
 	{
-		stdin = freopen(fname, "rb+", stdin);
-		if (stdin != NULL)
-		{
-			stdout = stdin;
-		}
+		stdout = freopen(fname, "wb", stdout);
+	}
+	else
+	{
+		stdout = freopen(NULL, "wb", stdout);
+	}
+	if (stdout == NULL)
+	{
+		exit(E_OUTPUT);
 	}
 	stdin = tempfile;
 
@@ -175,7 +184,7 @@ find_stored_checksum(FILE *stream)
 }
 
 static void
-fix_checksum(FILE *stream, unsigned int checksum)
+fix_checksum(FILE *stream, unsigned int const checksum)
 {
 	fseek(stream, CHECKSUM_LOCATION, SEEK_SET);
 	fputc(((int)checksum / 256) % 256, stream);
@@ -187,21 +196,21 @@ static void
 print_help(void)
 {
 	puts("Usage: mdchksum [-c|-f|-r|-w num] [-i] [-?V] [file]");
-	puts("Read and write checksums in SEGA Genesis / Mega Drive ROMs.");
+	puts("Read and write SEGA Genesis / Mega Drive ROM checksums.");
 	puts("");
 	puts("  -c     : compute checksum.");
 	puts("  -f     : fix checksum.");
 	puts("  -i     : operate in-place.");
 	puts("  -r     : read stored checksum.");
-	puts("  -w num : overwrite the checksum with num");
-	puts("  -?     : display this message");
-	puts("  -V     : display version information");
+	puts("  -w num : overwrite the checksum with num.");
+	puts("  -?     : display this message.");
+	puts("  -V     : display version information.");
 }
 
 static void
 print_version(void)
 {
-	puts("mdchksum 2.0");
+	puts("mdchksum 1.0");
 }
 
 static int

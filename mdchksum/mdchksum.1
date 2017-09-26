@@ -1,9 +1,14 @@
-.TH MDCHKSUM 1 2017-09-18
+.TH MDCHKSUM 1 2017-09-23 "Version 1.0"
 .SH NAME
-mdchksum \- read and write checksums in SEGA Genesis / Mega Drive ROMs
+mdchksum \- read and write
+.SM SEGA
+Genesis / Mega Drive
+.SM ROM
+checksums
 .SH SYNOPSIS
 .B mdchksum
-.RB [ \-c | \-f | \-r | \-w
+.RB [ \-c | \-f | \-r\c
+.RB | \-w
 .IR num ]
 .RB [ \-i ]
 .RB [ \-?V ]
@@ -11,32 +16,38 @@ mdchksum \- read and write checksums in SEGA Genesis / Mega Drive ROMs
 .SH DESCRIPTION
 The
 .B mdchksum
-utility reads, writes, and corrects checksums in SEGA Genesis / Mega
-Drive ROMs.
+utility reads, writes, and corrects checksums in
+.SM SEGA
+Genesis / Mega
+Drive
+.SM ROM\c
+s.
 If no
 .I file
 operand is specified, or if the
 .I file
 operand is
-.BR '\-' ,
-data is read from the standard input.  Unless the
+.RB \*(lq \- \*(rq,
+data is read from the standard input.
+Unless the
 .B \-i
 option is specified, all output is written to the standard output.
 .SH OPTIONS
-Non argument options that are duplicated on the command line are not
-harmful.  For options that require an argument, each duplication will
-override the previous argument value.  If more than one input file is
-specified, only the rightmost is used.
-.SS General options
+Non argument options that are duplicated on the command line are not harmful.
+For options that require an argument,
+each duplication will override the previous argument value.
+If more than one input file is specified,
+only the first is used.
+.SS "General options"
 .TP
 .B \-i
-Write changes in place to the input file instead of to the standard
-output.
-.SS Modes of operation
+Write changes in place to the input file
+instead of to the standard output.
+.SS "Modes of operation"
 .TP
 .B \-c
-Compute and print the correct checksum for the input file.  This is
-the default mode of operation.
+Compute and print the correct checksum for the input file.
+This is the default mode of operation.
 .TP
 .B \-f
 Output a copy of the input file with its checksum corrected.
@@ -48,14 +59,14 @@ Read and print the checksum stored in the input file.
 Output a copy of the input file with its checksum replaced by the
 low-order 16 bits of
 .IR num .
-.SS Getting help
+.SS "Getting help"
 .TP
 .B \-?
 Display a help message and exit.
 .TP
 .B \-V
 Display version information and exit.
-.SH EXIT STATUS
+.SH "EXIT STATUS"
 .TP
 .B 0
 Successful program execution.
@@ -65,5 +76,26 @@ Usage or syntax error.
 .TP
 .B 2
 The named input file does not exist or could not be opened.
+.TP
+.B 3
+An error occurred while trying to open the output file.
 .SH BUGS
 All operations make a temporary copy of the input file.
+.SH EXAMPLES
+.TP
+.BI "mdchksum " rom.bin
+Display the calculated checksum for
+.IR rom.bin .
+.TP
+.BI "mdchksum \-r " rom.bin
+Display the checksum stored in
+.IR rom.bin .
+Note that this may not be valid.
+.TP
+.BI "mdchksum \-fi " rom.bin
+Update the checksum stored in
+.IR rom.bin .
+.TP
+.BI "mdchksum \-w " "0 rom.bin"
+Zero out the checksum stored in
+.IR rom.bin .
