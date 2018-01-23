@@ -1,4 +1,4 @@
-.TH MDCHKSUM 1 2017-09-23 "Version 1.0"
+.TH MDCHKSUM 1 2018-01-22 "Version 1.2"
 .SH NAME
 mdchksum \- read and write
 .SM SEGA
@@ -79,6 +79,12 @@ The named input file does not exist or could not be opened.
 .TP
 .B 3
 An error occurred while trying to open the output file.
+.TP
+.B 4
+The named input file could not be read as a complete ROM.
+.TP
+.B 5
+Memory allocation failed while reading ROM data.
 .SH BUGS
 All operations make a temporary copy of the input file.
 .SH EXAMPLES

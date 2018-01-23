@@ -1,3 +1,9 @@
+1.2:
+  * Functionally identical to 1.0.
+  * Wider operating system support --- currently
+    - Linux
+    - Solaris (NEW)
+
 1.0:
   * Reverted from autotools.
   * Added manual page.
