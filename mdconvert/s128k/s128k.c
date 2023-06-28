@@ -93,8 +93,8 @@ s128k(char* filename)
 		{
 			if (odd_file != NULL) fclose(odd_file);
 			if (even_file != NULL) fclose(even_file);
-			snprintf(name_buffer, length, "%s.%d",
-			         filename, 2 * cpos / (128 kB));
+			snprintf(name_buffer, length, "%s.%ld",
+			         filename, (long)(2*cpos/(128 kB)));
 			even_file = fopen(name_buffer, "wb");
 			if (even_file == NULL)
 			{
@@ -102,8 +102,8 @@ s128k(char* filename)
 				exit(EXIT_FAILURE);
 			}
 			
-			snprintf(name_buffer, length, "%s.%d",
-			         filename, 2 * cpos / (128 kB) + 1);
+			snprintf(name_buffer, length, "%s.%ld",
+			         filename, (long)(2*cpos/(128 kB) + 1));
 			odd_file = fopen(name_buffer, "wb");
 			if (odd_file == NULL)
 			{

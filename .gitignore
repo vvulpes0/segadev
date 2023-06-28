@@ -1,0 +1,6 @@
+mbitpad/mbitpad
+mdconvert/bin2hilo/bin2hilo
+mdconvert/bin2smd/bin2smd
+mdconvert/s128k/s128k
+mdconvert/smd2bin/smd2bin
+obj/

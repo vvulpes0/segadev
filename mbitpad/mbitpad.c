@@ -51,7 +51,7 @@ main(int argc, char* argv[])
 				pad_to = DEFAULT_SIZE Mbit;
 				fprintf(
 					stderr,
-					"Could not convert %s to a valid number, defaulting to %ld Mbit.",
+					"Could not convert %s to a valid number, defaulting to %d Mbit.",
 					optarg, DEFAULT_SIZE);
 			} else {
 				pad_to = pad_to Mbit;
